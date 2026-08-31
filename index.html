@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f5f5f7" />
+
+    <title>Danny Ward — Project Liaison</title>
+    <meta
+      name="description"
+      content="Danny Ward is a public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
+    />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Danny Ward — Project Liaison" />
+    <meta
+      property="og:description"
+      content="Public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
+    />
+    <meta property="og:site_name" content="Danny Ward" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d1d1f'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial,sans-serif' font-size='24' font-weight='700' fill='white'%3EDW%3C/text%3E%3C/svg%3E"
+    />
+
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #f5f5f7;
+        --surface: #ffffff;
+        --text: #1d1d1f;
+        --muted: #6e6e73;
+        --hairline: rgba(29, 29, 31, 0.1);
+        --accent: #0071e3;
+        --accent-pressed: #0068d1;
+        --radius-large: 28px;
+        --radius-medium: 15px;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+        --content-width: 420px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+        background: var(--page);
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100svh;
+        margin: 0;
+        padding: max(20px, env(safe-area-inset-top)) 16px
+          max(20px, env(safe-area-inset-bottom));
+        display: grid;
+        place-items: center;
+        color: var(--text);
+        background: var(--page);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial,
+          sans-serif;
+        font-synthesis: none;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      main {
+        width: min(100%, var(--content-width));
+      }
+
+      .card {
+        padding: 32px 24px 22px;
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-large);
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      .portrait-wrap {
+        width: 116px;
+        height: 116px;
+        margin: 0 auto 22px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--hairline);
+        border-radius: 50%;
+        background: #e8e8ed;
+        color: var(--muted);
+        font-size: 34px;
+        font-weight: 650;
+        letter-spacing: -0.04em;
+      }
+
+      .portrait {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(30px, 9vw, 38px);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+
+      .role {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.4;
+      }
+
+      .organization {
+        display: block;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .headline {
+        max-width: 34ch;
+        margin: 24px auto 26px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.5;
+        text-wrap: balance;
+      }
+
+      .button {
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border-radius: var(--radius-medium);
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: 600;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        transition: transform 120ms ease, background-color 120ms ease;
+      }
+
+      .button:active {
+        transform: scale(0.985);
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(0, 113, 227, 0.32);
+        outline-offset: 3px;
+      }
+
+      .primary {
+        width: 100%;
+        padding: 0 20px;
+        color: #ffffff;
+        background: var(--accent);
+      }
+
+      .primary:active {
+        background: var(--accent-pressed);
+      }
+
+      .primary svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .actions {
+        margin-top: 18px;
+        padding-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        border-top: 1px solid var(--hairline);
+      }
+
+      .action {
+        min-width: 0;
+        min-height: 46px;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 550;
+      }
+
+      .action:hover {
+        background: rgba(0, 113, 227, 0.06);
+      }
+
+      .action[aria-disabled="true"] {
+        color: var(--muted);
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+
+      .note {
+        margin: 16px 8px 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      @media (max-height: 700px) {
+        body {
+          place-items: start center;
+        }
+
+        .card {
+          padding-top: 24px;
+        }
+
+        .portrait-wrap {
+          width: 96px;
+          height: 96px;
+          margin-bottom: 18px;
+        }
+
+        .headline {
+          margin-top: 18px;
+          margin-bottom: 20px;
+        }
+      }
+
+      @media (min-width: 700px) {
+        body {
+          padding: 48px 24px;
+        }
+
+        .card {
+          padding: 40px 34px 28px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .button {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="card" aria-labelledby="contact-name">
+        <div class="portrait-wrap" aria-hidden="true">
+          <span id="portrait-fallback">DW</span>
+          <img
+            class="portrait"
+            src="portrait.jpg"
+            alt=""
+            width="232"
+            height="232"
+            decoding="async"
+            fetchpriority="high"
+            onload="document.getElementById('portrait-fallback').hidden = true"
+            onerror="this.hidden = true"
+          />
+        </div>
+
+        <h1 id="contact-name">Danny Ward</h1>
+        <p class="role">
+          Project Liaison
+          <span class="organization">NYC Department of Homeless Services</span>
+        </p>
+
+        <p class="headline">
+          Public-sector project liaison focused on operations, partnerships, and large-scale
+          initiatives across New York City.
+        </p>
+
+        <a class="button primary" href="daniel-ward.vcf" download="daniel-ward.vcf">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+          </svg>
+          Add to Contacts
+        </a>
+
+        <nav class="actions" aria-label="Contact Danny Ward">
+          <a class="button action" id="call-link" href="#" aria-label="Call Danny Ward">Call</a>
+          <a class="button action" id="email-link" href="#" aria-label="Email Danny Ward">Email</a>
+          <a
+            class="button action"
+            id="linkedin-link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Danny Ward on LinkedIn"
+          >LinkedIn</a>
+        </nav>
+      </article>
+
+      <p class="note">Save this page or add Danny directly to your contacts.</p>
+    </main>
+
+    <script>
+      // Keep these values in sync with daniel-ward.vcf.
+      const CONTACT = {
+        phone: "+19143562495",
+        email: "wardda@hra.nyc.gov",
+        linkedin: "https://www.linkedin.com/in/daniel-ward-932a5b142/",
+      };
+
+      const links = {
+        phone: document.getElementById("call-link"),
+        email: document.getElementById("email-link"),
+        linkedin: document.getElementById("linkedin-link"),
+      };
+
+      function setLink(element, value, prefix = "") {
+        if (value.startsWith("REPLACE_WITH_")) {
+          element.removeAttribute("href");
+          element.setAttribute("aria-disabled", "true");
+          element.title = "Contact detail coming soon";
+          return;
+        }
+
+        element.href = `${prefix}${value}`;
+      }
+
+      setLink(links.phone, CONTACT.phone, "tel:");
+      setLink(links.email, CONTACT.email, "mailto:");
+      setLink(links.linkedin, CONTACT.linkedin);
+    </script>
+  </body>
+</html>
