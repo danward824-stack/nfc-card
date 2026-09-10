@@ -5,45 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f5f5f7" />
 
-    <title>Danny Ward — Project Liaison</title>
+    <title>Digital Business Card</title>
     <meta
       name="description"
-      content="Danny Ward is a public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
+      content="Contact information and digital business card."
     />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <link rel="canonical" href="https://danward824-stack.github.io/nfc-card/" />
 
     <meta property="og:type" content="profile" />
-    <meta property="og:title" content="Danny Ward — Project Liaison" />
-    <meta
-      property="og:description"
-      content="Public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
-    />
-    <meta property="og:site_name" content="Danny Ward" />
+    <meta property="og:title" content="Digital Business Card" />
+    <meta property="og:description" content="Contact information and digital business card." />
+    <meta property="og:site_name" content="Digital Business Card" />
     <meta property="og:url" content="https://danward824-stack.github.io/nfc-card/" />
-    <meta
-      property="og:image"
-      content="https://danward824-stack.github.io/nfc-card/og-card.jpg"
-    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="628" />
-    <meta property="og:image:alt" content="Danny Ward, Project Liaison" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Danny Ward — Project Liaison" />
-    <meta
-      name="twitter:description"
-      content="Public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
-    />
-    <meta
-      name="twitter:image"
-      content="https://danward824-stack.github.io/nfc-card/og-card.jpg"
-    />
-    <meta name="twitter:image:alt" content="Danny Ward, Project Liaison" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Digital Business Card" />
+    <meta name="twitter:description" content="Contact information and digital business card." />
 
     <link
+      id="site-icon"
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d1d1f'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial,sans-serif' font-size='24' font-weight='700' fill='white'%3EDW%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d1d1f'/%3E%3C/svg%3E"
     />
 
     <style>
@@ -67,6 +52,10 @@
       *::before,
       *::after {
         box-sizing: border-box;
+      }
+
+      [hidden] {
+        display: none !important;
       }
 
       html {
@@ -199,7 +188,7 @@
         margin-top: 14px;
         padding-top: 14px;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
         gap: 8px;
         border-top: 1px solid var(--hairline);
       }
@@ -273,51 +262,53 @@
   <body>
     <main>
       <article class="card" aria-labelledby="contact-name">
-        <div class="portrait-wrap" aria-hidden="true">
-          <span id="portrait-fallback">DW</span>
+        <div class="portrait-wrap">
+          <span id="portrait-fallback" aria-hidden="true"></span>
           <img
+            id="portrait"
             class="portrait"
-            src="portrait.jpg"
             alt=""
             width="232"
             height="232"
             decoding="async"
             fetchpriority="high"
-            onload="document.getElementById('portrait-fallback').hidden = true"
-            onerror="this.hidden = true"
           />
         </div>
 
-        <h1 id="contact-name">Danny Ward</h1>
-        <p class="role">
-          Project Liaison
-          <span class="organization">NYC Department of Homeless Services</span>
+        <h1 id="contact-name"></h1>
+        <p class="role" id="contact-role">
+          <span id="contact-title"></span>
+          <span class="organization" id="contact-organization"></span>
         </p>
 
-        <p class="headline">
-          Public-sector project liaison focused on operations, partnerships, and large-scale
-          initiatives across New York City.
-        </p>
+        <p class="headline" id="contact-bio"></p>
 
-        <a class="button primary" href="danny-ward.vcf" download="danny-ward.vcf">
+        <a class="button primary" id="add-contact" href="#">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14M5 12h14" stroke-linecap="round" />
           </svg>
           Add to Contacts
         </a>
 
-        <nav class="actions" aria-label="Contact Danny Ward">
-          <a class="button action" href="tel:+19143562495" aria-label="Call Danny Ward">Call</a>
-          <a class="button action" href="mailto:wardda@hra.nyc.gov" aria-label="Email Danny Ward">Email</a>
-          <a
-            class="button action"
-            href="https://www.linkedin.com/in/daniel-ward-932a5b142/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View Danny Ward on LinkedIn"
-          >LinkedIn</a>
-        </nav>
+        <nav class="actions" id="contact-actions" aria-label="Contact options"></nav>
       </article>
     </main>
+
+    <script>
+      // GitHub Pages uses a project subpath; a custom domain serves the site from root.
+      window.SITE_BASE_PATH = window.location.protocol === "file:"
+        ? "./"
+        : window.location.hostname.endsWith("github.io")
+          ? "/nfc-card/"
+          : "/";
+      const profileDataScript = document.createElement("script");
+      profileDataScript.src = `${window.SITE_BASE_PATH}profiles.js`;
+      profileDataScript.onload = () => {
+        const appScript = document.createElement("script");
+        appScript.src = `${window.SITE_BASE_PATH}app.js`;
+        document.body.append(appScript);
+      };
+      document.body.append(profileDataScript);
+    </script>
   </body>
 </html>
