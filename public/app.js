@@ -27,7 +27,7 @@
 
   const initials = profile.fullName
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((part) => /[\p{L}\p{N}]/u.test(part))
     .slice(0, 2)
     .map((part) => part[0].toUpperCase())
     .join("");
@@ -57,7 +57,10 @@
   const profileUrl = slug === data.defaultProfile
     ? siteUrl
     : `${siteUrl}${encodeURIComponent(slug)}/`;
-  const description = profile.bio || [profile.title, profile.organization].filter(Boolean).join(" at ");
+  const displaySubtitle = profile.subtitle || profile.title;
+  const displayDescriptor = profile.descriptor || profile.organization;
+  const contactName = profile.contactName || profile.fullName;
+  const description = profile.bio || [displaySubtitle, displayDescriptor].filter(Boolean).join(" — ");
   const pageTitle = [profile.fullName, profile.title].filter(Boolean).join(" — ");
   const imageAlt = [profile.fullName, profile.title].filter(Boolean).join(", ");
 
@@ -68,6 +71,8 @@
   setMeta('meta[property="og:site_name"]', "content", profile.fullName);
   setMeta('meta[property="og:url"]', "content", profileUrl);
   setMeta('meta[property="og:image"]', "content", profile.socialImage ? absoluteUrl(profile.socialImage) : "");
+  setMeta('meta[property="og:image:width"]', "content", profile.socialImage ? String(profile.socialImageWidth || "") : "");
+  setMeta('meta[property="og:image:height"]', "content", profile.socialImage ? String(profile.socialImageHeight || "") : "");
   setMeta('meta[property="og:image:alt"]', "content", profile.socialImage ? imageAlt : "");
   setMeta('meta[name="twitter:card"]', "content", profile.socialImage ? "summary_large_image" : "summary");
   setMeta('meta[name="twitter:title"]', "content", pageTitle);
@@ -77,14 +82,14 @@
   document.querySelector('link[rel="canonical"]').href = profileUrl;
 
   elements.name.textContent = profile.fullName;
-  setOptionalText(elements.title, profile.title);
-  setOptionalText(elements.organization, profile.organization);
-  elements.role.hidden = !profile.title && !profile.organization;
+  setOptionalText(elements.title, displaySubtitle);
+  setOptionalText(elements.organization, displayDescriptor);
+  elements.role.hidden = !displaySubtitle && !displayDescriptor;
   setOptionalText(elements.bio, profile.bio);
   elements.card.setAttribute("aria-label", `${profile.fullName} contact card`);
 
   elements.portraitFallback.textContent = initials;
-  elements.portrait.alt = `${profile.fullName} headshot`;
+  elements.portrait.alt = profile.photoAlt || `${profile.fullName} headshot`;
   elements.portrait.addEventListener("load", () => {
     elements.portraitFallback.hidden = true;
   });
@@ -109,30 +114,34 @@
     elements.actions.append(link);
   };
 
-  if (profile.phone) {
-    createAction({ label: "Call", href: `tel:${profile.phone}`, ariaLabel: `Call ${profile.fullName}` });
-  }
-  if (profile.email) {
-    createAction({ label: "Email", href: `mailto:${profile.email}`, ariaLabel: `Email ${profile.fullName}` });
-  }
-  if (profile.linkedin) {
-    createAction({
-      label: "LinkedIn",
-      href: profile.linkedin,
-      ariaLabel: `View ${profile.fullName} on LinkedIn`,
-      newTab: true,
-    });
-  }
-  (profile.links || []).forEach((link) => {
-    if (link.url && link.label) {
+  const defaultActions = [
+    { type: "phone", label: "Call" },
+    { type: "email", label: "Email" },
+    { type: "linkedin", label: "LinkedIn" },
+    ...(profile.links || []),
+  ];
+  const actions = profile.actions || defaultActions;
+
+  const resolveActionUrl = (action) => {
+    if (action.type === "phone") return profile.phone ? `tel:${profile.phone}` : "";
+    if (action.type === "email") return profile.email ? `mailto:${profile.email}` : "";
+    if (action.type === "linkedin") return profile.linkedin || action.url || "";
+    return action.url || "";
+  };
+
+  actions.forEach((action) => {
+    const href = resolveActionUrl(action);
+    if (href && action.label) {
+      const opensNewTab = action.newTab ?? !["phone", "email"].includes(action.type);
       createAction({
-        label: link.label,
-        href: link.url,
-        ariaLabel: link.ariaLabel || `${link.label} for ${profile.fullName}`,
-        newTab: link.newTab !== false,
+        label: action.label,
+        href,
+        ariaLabel: action.ariaLabel || `${action.label} for ${profile.fullName}`,
+        newTab: opensNewTab,
       });
     }
   });
+  elements.actions.dataset.count = String(elements.actions.children.length);
   elements.actions.hidden = elements.actions.children.length === 0;
 
   const escapeVCard = (value = "") => String(value)
@@ -141,24 +150,38 @@
     .replace(/;/g, "\\;")
     .replace(/,/g, "\\,");
 
-  const nameParts = profile.fullName.trim().split(/\s+/);
+  const nameParts = contactName.trim().split(/\s+/);
   const familyName = nameParts.length > 1 ? nameParts.pop() : "";
   const givenName = nameParts.join(" ");
+  const socialLinks = new Map();
+  if (profile.linkedin) socialLinks.set("linkedin", profile.linkedin);
+  actions.forEach((action) => {
+    if (action.url && /^https?:\/\//i.test(action.url)) {
+      socialLinks.set(action.type || "website", action.url);
+    }
+  });
+  (profile.links || []).forEach((link) => {
+    if (link.url && /^https?:\/\//i.test(link.url)) {
+      socialLinks.set(link.type || "website", link.url);
+    }
+  });
+  const socialVCardLines = [...socialLinks].flatMap(([type, url]) => [
+    `URL:${url}`,
+    type !== "website" && `X-SOCIALPROFILE;TYPE=${type}:${url}`,
+  ]).filter(Boolean);
   const vCard = [
     "BEGIN:VCARD",
     "VERSION:3.0",
     `N:${escapeVCard(familyName)};${escapeVCard(givenName)};;;`,
-    `FN:${escapeVCard(profile.fullName)}`,
+    `FN:${escapeVCard(contactName)}`,
     profile.organization && `ORG:${escapeVCard(profile.organization)}`,
     profile.title && `TITLE:${escapeVCard(profile.title)}`,
     profile.phone && `TEL;TYPE=CELL,VOICE:${profile.phone}`,
     profile.email && `EMAIL;TYPE=INTERNET:${profile.email}`,
     profile.photo && `PHOTO;VALUE=URI:${absoluteUrl(profile.photo)}`,
-    profile.linkedin && `URL:${profile.linkedin}`,
     profile.linkedin && `item1.URL;TYPE=pref:${profile.linkedin}`,
     profile.linkedin && "item1.X-ABLabel:LinkedIn",
-    profile.linkedin && `X-SOCIALPROFILE;TYPE=linkedin:${profile.linkedin}`,
-    ...(profile.links || []).filter((link) => link.url).map((link) => `URL:${link.url}`),
+    ...socialVCardLines,
     `REV:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
     "END:VCARD",
   ].filter(Boolean).join("\r\n");
@@ -166,5 +189,5 @@
   const vCardUrl = URL.createObjectURL(new Blob([vCard], { type: "text/vcard;charset=utf-8" }));
   elements.addContact.href = vCardUrl;
   elements.addContact.download = `${profile.slug}.vcf`;
-  elements.addContact.setAttribute("aria-label", `Add ${profile.fullName} to contacts`);
+  elements.addContact.setAttribute("aria-label", `Add ${contactName} to contacts`);
 })();

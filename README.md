@@ -10,6 +10,8 @@ A lightweight, mobile-first contact page designed to open from an NFC tag. One s
 
 Optional fields can be empty or omitted. Missing organization, bio, phone, email, LinkedIn, and additional links are hidden automatically. The vCard is generated in the browser for the selected profile.
 
+Use an optional ordered `actions` array when a profile needs different buttons. Built-in action types `phone`, `email`, and `linkedin` use the matching profile field. Facebook, Instagram, websites, or other actions provide their own `url`. An action is automatically skipped when its required value is empty.
+
 ```js
 jamie: {
   slug: "jamie",
@@ -21,6 +23,12 @@ jamie: {
   phone: "+12125550123",
   email: "jamie@example.com",
   linkedin: "https://www.linkedin.com/in/example/",
+  actions: [
+    { type: "phone", label: "Call" },
+    { type: "facebook", label: "Facebook", url: "https://www.facebook.com/example/" },
+    { type: "instagram", label: "Instagram", url: "https://www.instagram.com/example/" },
+    { type: "email", label: "Email" },
+  ],
   links: [],
 },
 ```
