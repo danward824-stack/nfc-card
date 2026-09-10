@@ -10,6 +10,8 @@
       name="description"
       content="Danny Ward is a public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
     />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <link rel="canonical" href="https://danward824-stack.github.io/nfc-card/" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:title" content="Danny Ward — Project Liaison" />
@@ -18,6 +20,26 @@
       content="Public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
     />
     <meta property="og:site_name" content="Danny Ward" />
+    <meta property="og:url" content="https://danward824-stack.github.io/nfc-card/" />
+    <meta
+      property="og:image"
+      content="https://danward824-stack.github.io/nfc-card/og-card.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta property="og:image:alt" content="Danny Ward, Project Liaison" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Danny Ward — Project Liaison" />
+    <meta
+      name="twitter:description"
+      content="Public-sector project liaison focused on operations, partnerships, and large-scale initiatives across New York City."
+    />
+    <meta
+      name="twitter:image"
+      content="https://danward824-stack.github.io/nfc-card/og-card.jpg"
+    />
+    <meta name="twitter:image:alt" content="Danny Ward, Project Liaison" />
 
     <link
       rel="icon"
@@ -50,7 +72,6 @@
       html {
         -webkit-text-size-adjust: 100%;
         background: var(--page);
-        overscroll-behavior-y: none;
       }
 
       body {
@@ -197,20 +218,6 @@
         background: rgba(0, 113, 227, 0.06);
       }
 
-      .action[aria-disabled="true"] {
-        color: var(--muted);
-        cursor: not-allowed;
-        opacity: 0.65;
-      }
-
-      .note {
-        margin: 12px 8px 0;
-        color: var(--muted);
-        font-size: 12px;
-        line-height: 1.4;
-        text-align: center;
-      }
-
       @media (max-height: 650px) {
         .card {
           padding-top: 20px;
@@ -292,7 +299,7 @@
           initiatives across New York City.
         </p>
 
-        <a class="button primary" href="daniel-ward.vcf" download="daniel-ward.vcf">
+        <a class="button primary" href="danny-ward.vcf" download="danny-ward.vcf">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14M5 12h14" stroke-linecap="round" />
           </svg>
@@ -300,50 +307,17 @@
         </a>
 
         <nav class="actions" aria-label="Contact Danny Ward">
-          <a class="button action" id="call-link" href="#" aria-label="Call Danny Ward">Call</a>
-          <a class="button action" id="email-link" href="#" aria-label="Email Danny Ward">Email</a>
+          <a class="button action" href="tel:+19143562495" aria-label="Call Danny Ward">Call</a>
+          <a class="button action" href="mailto:wardda@hra.nyc.gov" aria-label="Email Danny Ward">Email</a>
           <a
             class="button action"
-            id="linkedin-link"
-            href="#"
+            href="https://www.linkedin.com/in/daniel-ward-932a5b142/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Danny Ward on LinkedIn"
           >LinkedIn</a>
         </nav>
       </article>
-
-      <p class="note">Save this page or add Danny directly to your contacts.</p>
     </main>
-
-    <script>
-      // Keep these values in sync with daniel-ward.vcf.
-      const CONTACT = {
-        phone: "+19143562495",
-        email: "wardda@hra.nyc.gov",
-        linkedin: "https://www.linkedin.com/in/daniel-ward-932a5b142/",
-      };
-
-      const links = {
-        phone: document.getElementById("call-link"),
-        email: document.getElementById("email-link"),
-        linkedin: document.getElementById("linkedin-link"),
-      };
-
-      function setLink(element, value, prefix = "") {
-        if (value.startsWith("REPLACE_WITH_")) {
-          element.removeAttribute("href");
-          element.setAttribute("aria-disabled", "true");
-          element.title = "Contact detail coming soon";
-          return;
-        }
-
-        element.href = `${prefix}${value}`;
-      }
-
-      setLink(links.phone, CONTACT.phone, "tel:");
-      setLink(links.email, CONTACT.email, "mailto:");
-      setLink(links.linkedin, CONTACT.linkedin);
-    </script>
   </body>
 </html>

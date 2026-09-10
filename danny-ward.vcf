@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Ward;Danny;;;
+FN:Danny Ward
+ORG:NYC Department of Homeless Services
+TITLE:Project Liaison
+TEL;TYPE=CELL,VOICE:+19143562495
+EMAIL;TYPE=INTERNET:wardda@hra.nyc.gov
+PHOTO;VALUE=URI:https://danward824-stack.github.io/nfc-card/portrait.jpg
+URL:https://www.linkedin.com/in/daniel-ward-932a5b142/
+item1.URL;TYPE=pref:https://www.linkedin.com/in/daniel-ward-
+ 932a5b142/
+item1.X-ABLabel:LinkedIn
+X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/daniel-
+ ward-932a5b142/
+REV:20260909T000000Z
+END:VCARD
