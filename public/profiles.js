@@ -24,11 +24,12 @@ window.PROFILE_DATA = {
       },
       primaryAction: { type: "vcard", label: "Add to Contacts" },
       actions: [
-        { type: "tel", label: "Call" },
-        { type: "mailto", label: "Email" },
+        { type: "tel", label: "Call", icon: "call" },
+        { type: "mailto", label: "Email", icon: "email" },
         {
           type: "url",
           label: "LinkedIn",
+          icon: "linkedin",
           url: "https://www.linkedin.com/in/daniel-ward-932a5b142/",
           socialType: "linkedin",
         },
@@ -90,7 +91,7 @@ window.PROFILE_DATA = {
         url: "https://venmo.com/u/orkinporkin",
       },
       actions: [
-        { type: "tel", label: "Call" },
+        { type: "tel", label: "Call", icon: "call" },
         { type: "url", label: "Visit League", url: "https://sleeper.com/leagues/1387582361599758336/league" },
         { type: "url", label: "Report Fraud", url: "https://forms.fillout.com/t/kf7S67rnZ3us" },
       ],
@@ -128,11 +129,12 @@ window.PROFILE_DATA = {
         label: "Add to Contacts",
       },
       actions: [
-        { type: "tel", label: "Call" },
-        { type: "mailto", label: "Email" },
+        { type: "tel", label: "Call", icon: "call" },
+        { type: "mailto", label: "Email", icon: "email" },
         {
           type: "url",
           label: "LinkedIn",
+          icon: "linkedin",
           url: "https://www.linkedin.com/in/isaac-orkin-4bb415180/",
           socialType: "linkedin",
         },

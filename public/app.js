@@ -42,6 +42,7 @@
     if (profile.slug !== key) warnings.push(`slug should match profile key "${key}"`);
     if (!themes[profile.theme]) warnings.push(`unknown theme "${profile.theme}"; using default`);
     [profile.primaryAction, ...profile.actions].forEach((action) => { if (!actionTypes.has(action.type)) warnings.push(`unsupported action type "${action.type}"`); if (!action.label) warnings.push("every action needs a label"); });
+    [profile.primaryAction, ...profile.actions].forEach((action) => { if (action.icon && !/^[a-z0-9-]+$/.test(action.icon)) warnings.push(`invalid action icon "${action.icon}"`); });
     profile.sections.forEach((section) => { if (!["text", "notice"].includes(section.type)) warnings.push(`unsupported section type "${section.type}"`); });
     Object.keys(profile.themeOverrides).forEach((name) => { if (!themeProperties[name]) warnings.push(`theme override "${name}" is not allowed`); });
     if (warnings.length) console.warn(`Profile "${key}": ${warnings.join("; ")}`);
@@ -163,7 +164,20 @@
   const createAction = (action, primary = false) => {
     const resolved = resolveAction(action); if (!action.label || (!resolved.href && !resolved.message)) return null;
     const element = document.createElement(action.type === "toast" ? "button" : "a"); element.className = `button ${primary ? "primary" : "action"}`;
-    if (primary && action.type === "vcard") element.innerHTML = `${plusIcon}<span></span>`; (element.querySelector("span") || element).textContent = action.label;
+    if (primary && action.type === "vcard") {
+      element.innerHTML = `${plusIcon}<span></span>`;
+      element.querySelector("span").textContent = action.label;
+    } else if (action.icon && /^[a-z0-9-]+$/.test(action.icon)) {
+      const icon = document.createElement("span");
+      icon.className = "action-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.style.setProperty("--action-icon", `url("${absoluteUrl(`icons/${action.icon}.svg`)}")`);
+      const label = document.createElement("span");
+      label.textContent = action.label;
+      element.append(icon, label);
+    } else {
+      element.textContent = action.label;
+    }
     element.setAttribute("aria-label", action.ariaLabel || (action.type === "vcard" ? `Add ${profile.contact.fullName} to contacts` : `${action.label} for ${profile.display.name}`));
     if (resolved.href) element.href = resolved.href; if (resolved.download) element.download = resolved.download; if (resolved.message) element.addEventListener("click", () => showToast(resolved.message));
     const newTab = action.newTab ?? action.type === "url"; if (newTab && resolved.href) { element.target = "_blank"; element.rel = "noopener noreferrer"; } return element;
