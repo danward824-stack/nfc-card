@@ -119,6 +119,25 @@
   elements.favicon.href = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
 
   const escapeVCard = (value = "") => String(value).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/;/g, "\\;").replace(/,/g, "\\,");
+  const foldVCardLine = (line) => {
+    const encoder = new TextEncoder();
+    const folded = [];
+    let segment = "";
+    let segmentBytes = 0;
+    for (const character of line) {
+      const characterBytes = encoder.encode(character).length;
+      if (segmentBytes + characterBytes > 75) {
+        folded.push(segment);
+        segment = ` ${character}`;
+        segmentBytes = 1 + characterBytes;
+      } else {
+        segment += character;
+        segmentBytes += characterBytes;
+      }
+    }
+    folded.push(segment);
+    return folded.join("\r\n");
+  };
   const buildVCard = () => {
     const nameParts = profile.contact.fullName.trim().split(/\s+/); const familyName = nameParts.length > 1 ? nameParts.pop() : ""; const givenName = nameParts.join(" ");
     const socialLinks = new Map(); if (profile.contact.linkedin) socialLinks.set("linkedin", profile.contact.linkedin);
@@ -128,7 +147,7 @@
       profile.contact.organization && `ORG:${escapeVCard(profile.contact.organization)}`, profile.contact.title && `TITLE:${escapeVCard(profile.contact.title)}`,
       profile.contact.phone && `TEL;TYPE=CELL,VOICE:${profile.contact.phone}`, profile.contact.email && `EMAIL;TYPE=INTERNET:${profile.contact.email}`,
       profile.display.photo && `PHOTO;VALUE=URI:${absoluteUrl(profile.display.photo)}`, profile.contact.linkedin && `item1.URL;TYPE=pref:${profile.contact.linkedin}`,
-      profile.contact.linkedin && "item1.X-ABLabel:LinkedIn", ...socialLines, `REV:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`, "END:VCARD"].filter(Boolean).join("\r\n");
+      profile.contact.linkedin && "item1.X-ABLabel:LinkedIn", ...socialLines, `REV:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`, "END:VCARD"].filter(Boolean).map(foldVCardLine).join("\r\n");
   };
   let toastTimer;
   const showToast = (message) => { window.clearTimeout(toastTimer); elements.toast.hidden = false; elements.toast.textContent = ""; window.requestAnimationFrame(() => { elements.toast.textContent = message; }); toastTimer = window.setTimeout(() => { elements.toast.hidden = true; elements.toast.textContent = ""; }, 3500); };
@@ -157,5 +176,5 @@
     if (section.title) { const heading = document.createElement("h2"); heading.textContent = section.title; wrapper.append(heading); } const text = document.createElement("p"); text.textContent = section.text; wrapper.append(text); elements.sections.append(wrapper);
   });
   elements.sections.hidden = elements.sections.children.length === 0;
-  window.TAPWARD_APP = { normalizeProfile, validateProfile, buildVCard, profile };
+  window.TAPWARD_APP = { normalizeProfile, validateProfile, buildVCard, foldVCardLine, profile };
 })();
