@@ -5,31 +5,40 @@ A lightweight, mobile-first contact page designed to open from an NFC tag. One s
 ## Add a profile
 
 1. Add the person's photo to `public/`.
-2. Copy the `danny` entry in `public/profiles.js`, give it a unique key and matching `slug`, then replace its values.
+2. Add a profile entry in `public/profiles.js`, give it a unique key and matching `slug`, then replace its values.
 3. Open `https://yourdomain.com/their-slug/`.
 
 Optional fields can be empty or omitted. Missing organization, bio, phone, email, LinkedIn, and additional links are hidden automatically. The vCard is generated in the browser for the selected profile.
 
-Use an optional ordered `actions` array when a profile needs different buttons. Built-in action types `phone`, `email`, and `linkedin` use the matching profile field. Facebook, Instagram, websites, or other actions provide their own `url`. An action is automatically skipped when its required value is empty.
+New profiles may use the structured schema below. Existing flat profiles remain supported by the compatibility layer. `actions` controls button order; supported types are `vcard`, `url`, `tel`, `mailto`, `sms`, `internal`, and `toast`. Optional sections support `text` and `notice`. Themes are defined in `public/themes.js`; `themeOverrides` accepts only the named color tokens used there.
 
 ```js
 jamie: {
   slug: "jamie",
-  fullName: "Jamie Example",
-  title: "Program Manager",
-  organization: "Example Organization",
-  bio: "A short professional biography.",
-  photo: "jamie.jpg",
-  phone: "+12125550123",
-  email: "jamie@example.com",
-  linkedin: "https://www.linkedin.com/in/example/",
+  display: {
+    name: "Jamie Example",
+    subtitle: "Program Manager",
+    descriptor: "Example Organization",
+    bio: "A short professional biography.",
+    photo: "jamie.jpg",
+  },
+  contact: {
+    fullName: "Jamie Example",
+    title: "Program Manager",
+    organization: "Example Organization",
+    phone: "+12125550123",
+    email: "jamie@example.com",
+    linkedin: "https://www.linkedin.com/in/example/",
+  },
+  primaryAction: { type: "vcard", label: "Add to Contacts" },
   actions: [
-    { type: "phone", label: "Call" },
-    { type: "facebook", label: "Facebook", url: "https://www.facebook.com/example/" },
-    { type: "instagram", label: "Instagram", url: "https://www.instagram.com/example/" },
-    { type: "email", label: "Email" },
+    { type: "tel", label: "Call" },
+    { type: "mailto", label: "Email" },
+    { type: "url", label: "LinkedIn", url: "https://www.linkedin.com/in/example/", socialType: "linkedin" },
   ],
-  links: [],
+  sections: [{ type: "text", title: "About", text: "Optional plain-text content." }],
+  theme: "default",
+  themeOverrides: {},
 },
 ```
 

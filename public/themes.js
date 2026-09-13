@@ -1,0 +1,28 @@
+window.TAPWARD_THEMES = {
+  default: {
+    page: "#f5f5f7",
+    surface: "#ffffff",
+    text: "#1d1d1f",
+    muted: "#6e6e73",
+    hairline: "rgba(29, 29, 31, 0.1)",
+    accent: "#0071e3",
+    accentPressed: "#0068d1",
+    secondary: "#f5f5f7",
+    onAccent: "#ffffff",
+    accentSoft: "rgba(0, 113, 227, 0.06)",
+    focusRing: "rgba(0, 113, 227, 0.32)",
+  },
+  treasury: {
+    page: "#0b261d",
+    surface: "#12382b",
+    text: "#fff8e7",
+    muted: "#d4c395",
+    hairline: "rgba(212, 195, 149, 0.22)",
+    accent: "#c9a227",
+    accentPressed: "#b28d1f",
+    secondary: "#194634",
+    onAccent: "#10281f",
+    accentSoft: "rgba(201, 162, 39, 0.14)",
+    focusRing: "rgba(201, 162, 39, 0.42)",
+  },
+};

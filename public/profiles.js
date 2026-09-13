@@ -48,5 +48,42 @@ window.PROFILE_DATA = {
       ],
       links: [],
     },
+
+    treasurer: {
+      slug: "treasurer",
+      display: {
+        name: "Isaac",
+        subtitle: "League Treasurer",
+        descriptor: "Long Live Commish Chris Fantasy Football League",
+        bio: "Responsible for safeguarding league assets, collecting dues, issuing payouts, and maintaining the financial integrity of the league.",
+        photo: "isaac-treasurer.png",
+        photoAlt: "Isaac, League Treasurer",
+      },
+      contact: {
+        fullName: "Isaac",
+        title: "League Treasurer",
+        organization: "Long Live Commish Chris Fantasy Football League",
+        phone: "+19146061124",
+      },
+      primaryAction: {
+        type: "url",
+        label: "💰 Pay League Dues",
+        url: "https://venmo.com/u/orkinporkin",
+      },
+      actions: [
+        { type: "tel", label: "Call" },
+        { type: "url", label: "Visit League", url: "https://sleeper.com/leagues/1387582361599758336/league" },
+        { type: "url", label: "Report Fraud", url: "https://forms.fillout.com/t/kf7S67rnZ3us" },
+      ],
+      sections: [
+        {
+          id: "office-of-the-treasurer",
+          type: "notice",
+          title: "Office of the Treasurer",
+          text: "Fiduciary oversight since 2026.",
+        },
+      ],
+      theme: "treasury",
+    },
   },
 };
