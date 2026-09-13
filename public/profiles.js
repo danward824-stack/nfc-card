@@ -56,7 +56,7 @@ window.PROFILE_DATA = {
         subtitle: "League Treasurer",
         descriptor: "Long Live Commish Chris Fantasy Football League",
         bio: "Responsible for safeguarding league assets, collecting dues, issuing payouts, and maintaining the financial integrity of the league.",
-        photo: "isaac-treasurer.png",
+        photo: "isaac-headshot.png",
         photoAlt: "Isaac, League Treasurer",
       },
       contact: {
@@ -84,6 +84,41 @@ window.PROFILE_DATA = {
         },
       ],
       theme: "treasury",
+    },
+
+    isaac: {
+      slug: "isaac",
+      display: {
+        name: "Isaac Orkin",
+        subtitle: "On-Site Project Manager",
+        descriptor: "Douglas Elliman Property Management",
+        bio: "Project manager with extensive experience managing the completion of high-end residential real estate projects in New York City. Fluent in Japanese.",
+        photo: "isaac-headshot.png",
+        photoAlt: "Isaac Orkin, On-Site Project Manager",
+      },
+      contact: {
+        fullName: "Isaac Orkin",
+        title: "On-Site Project Manager",
+        organization: "Douglas Elliman Property Management",
+        phone: "+19146061124",
+        email: "Iorkin@me.com",
+        linkedin: "https://www.linkedin.com/in/isaac-orkin-4bb415180/",
+      },
+      primaryAction: {
+        type: "vcard",
+        label: "Add to Contacts",
+      },
+      actions: [
+        { type: "tel", label: "Call" },
+        { type: "mailto", label: "Email" },
+        {
+          type: "url",
+          label: "LinkedIn",
+          url: "https://www.linkedin.com/in/isaac-orkin-4bb415180/",
+          socialType: "linkedin",
+        },
+      ],
+      theme: "default",
     },
   },
 };
