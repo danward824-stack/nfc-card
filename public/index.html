@@ -217,6 +217,36 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .home {
+        min-height: calc(100svh - 28px);
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+
+      .home-content {
+        padding: 40px 20px;
+      }
+
+      .home-title {
+        font-size: clamp(42px, 13vw, 58px);
+      }
+
+      .home-tagline {
+        margin: 16px 0 0;
+        color: var(--text);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .home-description {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
       .sections {
         margin-top: 18px;
         display: grid;
@@ -308,6 +338,10 @@
         .card {
           padding: 40px 34px 28px;
         }
+
+        .home {
+          min-height: calc(100svh - 96px);
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -319,7 +353,15 @@
   </head>
   <body>
     <main>
-      <article class="card" aria-labelledby="contact-name">
+      <section class="home" id="home-view" aria-labelledby="home-title" hidden>
+        <div class="home-content">
+          <h1 class="home-title" id="home-title">WardTap</h1>
+          <p class="home-tagline">Tap. Connect. Share.</p>
+          <p class="home-description">Digital profiles built for a tap.</p>
+        </div>
+      </section>
+
+      <article class="card" id="profile-view" aria-labelledby="contact-name" hidden>
         <div class="portrait-wrap">
           <span id="portrait-fallback" aria-hidden="true"></span>
           <img

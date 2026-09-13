@@ -49,9 +49,39 @@
   };
 
   const siteUrl = new URL(basePath, window.location.protocol === "file:" ? window.location.href : window.location.origin).href;
+  const setMeta = (selector, attribute, value) => {
+    let element = document.querySelector(selector);
+    if (!value) { element?.remove(); return; }
+    if (!element) { element = document.createElement("meta"); const [name, content] = selector.match(/meta\[(.+?)="(.+?)"\]/).slice(1); element.setAttribute(name, content); document.head.append(element); }
+    element.setAttribute(attribute, value);
+  };
   const pathSlug = window.location.pathname.slice(basePath.length).split("/").filter(Boolean)[0];
   const requestedSlug = pathSlug || new URLSearchParams(window.location.search).get("profile");
-  const slug = requestedSlug && data.profiles[requestedSlug] ? requestedSlug : data.defaultProfile;
+  if (!requestedSlug) {
+    document.title = "WardTap";
+    setMeta('meta[name="description"]', "content", "Digital profiles built for a tap.");
+    setMeta('meta[property="og:title"]', "content", "WardTap");
+    setMeta('meta[property="og:description"]', "content", "Digital profiles built for a tap.");
+    setMeta('meta[property="og:site_name"]', "content", "WardTap");
+    setMeta('meta[property="og:url"]', "content", siteUrl);
+    setMeta('meta[property="og:image"]', "content", "");
+    setMeta('meta[property="og:image:width"]', "content", "");
+    setMeta('meta[property="og:image:height"]', "content", "");
+    setMeta('meta[property="og:image:alt"]', "content", "");
+    setMeta('meta[name="twitter:card"]', "content", "summary");
+    setMeta('meta[name="twitter:title"]', "content", "WardTap");
+    setMeta('meta[name="twitter:description"]', "content", "Digital profiles built for a tap.");
+    setMeta('meta[name="twitter:image"]', "content", "");
+    setMeta('meta[name="twitter:image:alt"]', "content", "");
+    document.querySelector('link[rel="canonical"]').href = siteUrl;
+    document.getElementById("home-view").hidden = false;
+    return;
+  }
+  if (!data.profiles[requestedSlug]) {
+    window.location.replace(siteUrl);
+    return;
+  }
+  const slug = requestedSlug;
   const profile = normalizeProfile(data.profiles[slug], slug);
   validateProfile(profile, slug);
   const elements = {
@@ -61,18 +91,13 @@
     actions: document.getElementById("contact-actions"), sections: document.getElementById("profile-sections"), toast: document.getElementById("toast"), favicon: document.getElementById("site-icon"),
   };
   const absoluteUrl = (path) => new URL(path, siteUrl).href;
+  elements.card.hidden = false;
   Object.entries({ ...(themes[profile.theme] || themes.default || {}), ...profile.themeOverrides }).forEach(([name, value]) => {
     if (themeProperties[name] && typeof value === "string") document.documentElement.style.setProperty(themeProperties[name], value);
   });
   const initials = profile.display.name.split(/\s+/).filter((part) => /[\p{L}\p{N}]/u.test(part)).slice(0, 2).map((part) => part[0].toUpperCase()).join("");
   const setOptionalText = (element, value) => { element.textContent = value || ""; element.hidden = !value; };
-  const setMeta = (selector, attribute, value) => {
-    let element = document.querySelector(selector);
-    if (!value) { element?.remove(); return; }
-    if (!element) { element = document.createElement("meta"); const [name, content] = selector.match(/meta\[(.+?)="(.+?)"\]/).slice(1); element.setAttribute(name, content); document.head.append(element); }
-    element.setAttribute(attribute, value);
-  };
-  const profileUrl = slug === data.defaultProfile ? siteUrl : `${siteUrl}${encodeURIComponent(slug)}/`;
+  const profileUrl = `${siteUrl}${encodeURIComponent(slug)}/`;
   const description = profile.display.bio || [profile.display.subtitle, profile.display.descriptor].filter(Boolean).join(" — ");
   const pageTitle = [profile.display.name, profile.contact.title].filter(Boolean).join(" — ");
   const imageAlt = [profile.display.name, profile.contact.title].filter(Boolean).join(", ");
