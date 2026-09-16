@@ -1,4 +1,4 @@
-window.PROFILE_DATA = {
+const PROFILE_DATA = {
   defaultProfile: "danny",
 
   profiles: {
@@ -143,3 +143,6 @@ window.PROFILE_DATA = {
     },
   },
 };
+
+if (typeof window !== "undefined") window.PROFILE_DATA = PROFILE_DATA;
+if (typeof module !== "undefined") module.exports = PROFILE_DATA;

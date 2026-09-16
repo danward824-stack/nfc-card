@@ -1,0 +1,12 @@
+{
+  "name": "wardtap",
+  "private": true,
+  "scripts": {
+    "generate-previews": "node scripts/generate-previews.js",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.3",
+    "wrangler": "^4.41.0"
+  }
+}

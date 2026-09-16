@@ -7,6 +7,7 @@ A lightweight, mobile-first contact page designed to open from an NFC tag. One s
 1. Add the person's photo to `public/`.
 2. Add a profile entry in `public/profiles.js`, give it a unique key and matching `slug`, then replace its values.
 3. Open `https://yourdomain.com/their-slug/`.
+4. Run `npm run generate-previews` to refresh every social preview image and the Worker metadata manifest.
 
 Optional fields can be empty or omitted. Missing organization, bio, phone, email, LinkedIn, and additional links are hidden automatically. The vCard is generated in the browser for the selected profile.
 
@@ -56,7 +57,7 @@ Then visit `http://localhost:8000/?profile=danny`. Python's basic server does no
 
 ## Deploy with Cloudflare Workers
 
-This is an assets-only Cloudflare Worker with no backend script or build step. Deploy it with:
+This uses Cloudflare Workers Static Assets plus a small Worker that injects profile-specific social metadata into the initial HTML response. Deploy it with:
 
 ```sh
 npx wrangler deploy
@@ -64,4 +65,13 @@ npx wrangler deploy
 
 `wrangler.jsonc` publishes only the files in `public/` and uses `not_found_handling: "single-page-application"`, so clean paths such as `/danny/` and `/jamie/` serve the shared template.
 
-In Cloudflare Workers Git integration, leave the build command empty and use `npx wrangler deploy` as the deploy command. No output directory, Worker entrypoint, or environment variables are required.
+In Cloudflare Workers Git integration, leave the build command empty and use `npx wrangler deploy` as the deploy command. No output directory or environment variables are required. The Worker entrypoint and asset binding are configured in `wrangler.jsonc`.
+
+Before deploying a new or updated profile, run:
+
+```sh
+npm install
+npm run generate-previews
+```
+
+Commit the generated files under `public/assets/previews/` and `src/profile-metadata.js` with the profile change.

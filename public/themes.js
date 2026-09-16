@@ -1,4 +1,4 @@
-window.TAPWARD_THEMES = {
+const TAPWARD_THEMES = {
   default: {
     page: "#f5f5f7",
     surface: "#ffffff",
@@ -26,3 +26,6 @@ window.TAPWARD_THEMES = {
     focusRing: "rgba(201, 162, 39, 0.42)",
   },
 };
+
+if (typeof window !== "undefined") window.TAPWARD_THEMES = TAPWARD_THEMES;
+if (typeof module !== "undefined") module.exports = TAPWARD_THEMES;
